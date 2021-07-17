@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Регистрация</title>
+    <meta charset="utf-8" />
+</head>
+
+<body>
+    <h1>Введите данные</h1>
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <script>
+        // const spisok = document.getElementsByTagName('li')[0];
+        var arr = fetch("./uploads/db.txt")
+            .then(promiseResult => {
+                console.log(promiseResult)
+                return promiseResult.json()
+            })
+            .then(responseResult => {
+                console.log(responseResult)
+                
+                document.write(responseResult.map(item =>
+                    `
+                <ul>
+                    <li>${item.Product}</li>
+                    <li>${item.Description}</li>
+                    <li>${item.Price}</li>
+                    <li>${item.Product_URL}</li>
+                </ul>
+                ` )
+
+                )
+            })
+        console.log(arr)
+    </script>
+</body>
+
+</html>
