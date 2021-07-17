@@ -15,27 +15,6 @@ app.use(cors());
 app.use(express.static('images'));
 app.use(express.static('../client/public'));
 
-app.get("/register", function (request, response) {
-    response.sendFile(__dirname + "/register.html");
-});
-
-app.get("/prod", function (request, response) {
-    response.sendFile(__dirname + "/prod.html");
-});
-// const arr = []
-// app.post("/register", function (request, response) {
-//     if (!request.body) return response.sendStatus(400);
-//     console.log(request.body);
-//     arr.push(request.body)
-//     n
-//     fs.writeFile('./uploads/db.txt', JSON.stringify(arr), (err) => {
-//         if (err) console.log(err);
-//     });
-//     console.log(arr)
-//     response.send(arr)
-// });
-
-
 app.get("/db", function (request, response) {
     response.send(JSON.parse(fs.readFileSync('./uploads/db.txt', "utf8")))
 
@@ -64,24 +43,47 @@ app.post("/login", function (request, response) {
 })
 
 
-// const storageConfig = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, "uploads");
-//     },
-//     filename: (req, file, cb) => {
-//         cb(null, file.originalname);
-//     }
-// });
+const storageConfig = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "uploads");
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    }
+});
 
-// app.use(express.static(__dirname));
+app.use(express.static(__dirname));
 
-// app.use(multer({ storage: storageConfig }).single("filedata"));
-// app.post("/upload", function (req, res, next) {
+app.use(multer({ storage: storageConfig }).single("filedata"));
+app.post("/upload", function (req, res, next) {
 
-//     let filedata = req.file;
-//     if (!filedata)
-//         res.send("Ошибка при загрузке файла");
-//     else
-//         res.send("Файл загружен");
+    let filedata = req.file;
+    if (!filedata)
+        res.send("Ошибка при загрузке файла");
+    else
+        res.send("Файл загружен");
+});
+app.get("/register", function (request, response) {
+    response.sendFile(__dirname + "/register.html");
+});
+
+app.get("/prod", function (request, response) {
+    response.sendFile(__dirname + "/prod.html");
+});
+app.get("/index", function (request, response) {
+    response.sendFile(__dirname + "/index.html");
+});
+
+// const arr = []
+// app.post("/register", function (request, response) {
+//     if (!request.body) return response.sendStatus(400);
+//     console.log(request.body);
+//     arr.push(request.body)
+//     n
+//     fs.writeFile('./uploads/db.txt', JSON.stringify(arr), (err) => {
+//         if (err) console.log(err);
+//     });
+//     console.log(arr)
+//     response.send(arr)
 // });
 app.listen(PORT, () => { console.log("Server started"); });
